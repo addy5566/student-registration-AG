@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Registration</title>
+        <link rel="stylesheet" href="{% static 'students/style.css' %}">
+</head>
+<body>
+   <div class="container">
+    <h2>Student Registration</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="mobile" placeholder="Mobile" required>
+        <input type="text" name="class" placeholder="Class" required>
+        <button type="submit">Register</button>
+    </form>
+
+    <hr>
+<a href="/students/" class="admin-btn">Admin: View Registered Students</a>
+</div>
+
+</body>
+</html>

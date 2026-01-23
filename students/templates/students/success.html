@@ -1,0 +1,18 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+    <link rel="stylesheet" href="{% static 'students/style.css' %}">
+</head>
+<body>
+    <div class="container success">
+    <h2>🎉 Registration Successful!</h2>
+    <p>Your Registration ID is:</p>
+    <h3>{{ student_id }}</h3>
+    <p>A confirmation email has been sent.</p>
+    <a href="/register/">Register Another Student</a>
+</div>
+</body>
+</html>
