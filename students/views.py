@@ -22,7 +22,7 @@ def register_student(request):
 
     decrypted_email = decrypt_value(student.email)
 
-        send_mail(
+    send_mail(
             subject="Registration Successful",
             message=f"Hello {name}, your registration ID is {student.id}",
             from_email=settings.EMAIL_HOST_USER,
@@ -30,7 +30,7 @@ def register_student(request):
             fail_silently=False,
         )
 
-        return redirect(f"/success/?id={student.id}")
+    return redirect(f"/success/?id={student.id}")
 
     return render(request, "students/register.html")
 
@@ -67,7 +67,7 @@ def student_list(request):
         students = students.filter(class_name=class_filter)
 
     # 🔐 SAFE DECRYPTION (CRITICAL FIX)
-   for student in students:
+    for student in students:
         try:
             student.email = decrypt_value(student.email)
             student.mobile = decrypt_value(student.mobile)
