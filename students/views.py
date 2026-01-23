@@ -20,7 +20,7 @@ def register_student(request):
         class_name=class_name
         )
 
-        decrypted_email = decrypt_value(student.email)
+    decrypted_email = decrypt_value(student.email)
 
         send_mail(
             subject="Registration Successful",
