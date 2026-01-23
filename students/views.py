@@ -13,11 +13,11 @@ def register_student(request):
         mobile = request.POST.get("mobile")
         class_name = request.POST.get("class")
 
-        student = Student.objects.create(
-            name=name,
-            email=encrypt_value(email),
-            mobile=encrypt_value(mobile),
-            class_name=class_name
+    student = Student.objects.create(
+        name=name,
+        email=encrypt_value(email),
+        mobile=encrypt_value(mobile),
+        class_name=class_name
         )
 
         decrypted_email = decrypt_value(student.email)
