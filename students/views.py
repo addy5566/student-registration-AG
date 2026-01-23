@@ -4,6 +4,8 @@ from django.conf import settings
 from .models import Student
 from .utils import encrypt_value, decrypt_value
 
+# code for register
+
 def register_student(request):
     if request.method == "POST":
         name = request.POST.get("name")
