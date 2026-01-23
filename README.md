@@ -31,11 +31,11 @@ The application allows students to register, securely stores sensitive informati
 
 ## Tech Stack
 
-- **Backend:** Python, Django
-- **Database:** MySQL
-- **Frontend:** HTML, CSS
-- **Email Service:** SMTP (Gmail)
-- **Version Control:** Git & GitHub
+- ##Backend:## Python, Django
+- ##Database:## MySQL
+- ##Frontend:## HTML, CSS
+- ##Email Service:## SMTP (Gmail)
+- ##Version Control:## Git & GitHub
 
 ---
 
@@ -63,7 +63,7 @@ student_assessment/
 
 A manual SQL script is provided as required by the assignment.
 
-**File:** `student_table.sql`
+## File: `student_table.sql`
 
   sql
 CREATE TABLE students_student (
@@ -78,7 +78,7 @@ CREATE TABLE students_student (
 );
 
 
-**Security & Encryption**
+## Security & Encryption
 
 Email and mobile number are encrypted using symmetric   encryption before being stored in the database
 
@@ -86,7 +86,7 @@ Decryption is performed only when required (e.g., sending confirmation email)
 
 Encryption key is stored securely via environment configuration
 
-**Email Configuration**
+##Email Configuration##
 
 Confirmation email is sent after successful registration
 
@@ -94,7 +94,7 @@ Uses SMTP with TLS
 
 Gmail App Password is used for authentication
 
-**Running the Project Locally**
+## Running the Project Locally
 
 1️⃣ Clone the Repository
 git clone https://github.com/addy5566/student-registration-AG.git
@@ -128,7 +128,7 @@ Visit:
 Registration page: http://127.0.0.1:8000/register/
 Admin student list: http://127.0.0.1:8000/students/
 
-**Testing**
+## Testing
 
 Manual test performed covering full flow:
 Student registration
@@ -137,7 +137,7 @@ Email delivery
 Admin list view
 CSV export
 
-**AI Usage Disclosure**
+## AI Usage Disclosure
 
 As per the assignment guidelines:
 
@@ -152,7 +152,20 @@ Purpose: Step-by-step understanding, debugging assistance, and documentation gui
 All implementation decisions were made manually
 
 
-**Author**
+## Screenshots
+
+Screenshots demonstrating the working application are available in the `screenshots/` directory, including:
+
+- Student registration page
+- Successful registration confirmation
+- Email notification
+- Encrypted database records
+- Admin student list and filtering
+- CSV export functionality
+
+
+
+## Author
 
 Aditya Raj
 Computer Science Student / Backend Developer
