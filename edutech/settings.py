@@ -73,16 +73,29 @@ WSGI_APPLICATION = 'edutech.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'edutech_db',
-        'USER': 'root',
-        'PASSWORD': 'Root#349',
-        'HOST': 'localhost',
-        'PORT': '3306',
+import os
+
+if os.getenv("RENDER"):
+    # Render / Production → SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    # Local development → MySQL
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'edutech_db',
+            'USER': 'root',
+            'PASSWORD': 'Root#349',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
+
 
 
 
@@ -124,8 +137,9 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
-from cryptography.fernet import Fernet
-ENCRYPTION_KEY = Fernet.generate_key()
+import os
+ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
