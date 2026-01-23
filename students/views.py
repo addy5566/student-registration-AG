@@ -49,8 +49,9 @@ def registration_success(request):
 # this code is for showing list of all students
 
 from django.db.models import Q
-from django.http import HttpResponse
-import csv
+from django.shortcuts import render
+from .models import Student
+from .utils import decrypt_value
 
 
 def student_list(request):
@@ -64,6 +65,15 @@ def student_list(request):
 
     if class_filter:
         students = students.filter(class_name=class_filter)
+
+    # 🔐 SAFE DECRYPTION (CRITICAL FIX)
+    for s in students:
+        try:
+            s.email = decrypt_value(s.email)
+            s.mobile = decrypt_value(s.mobile)
+        except Exception:
+            s.email = "Decryption Error"
+            s.mobile = "Decryption Error"
 
     return render(request, "students/list.html", {
         "students": students
