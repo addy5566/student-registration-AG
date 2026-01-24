@@ -164,6 +164,31 @@ Screenshots demonstrating the working application are available in the `screensh
 - CSV export functionality
 
 
+##  Documentation & References
+
+### Application Flow
+1 User opens the application and lands on the registration page.
+2 User submits student details (name, email, mobile, class).
+3 Sensitive data (email & mobile) is encrypted before storing in database.
+4 A success page confirms registration.
+5 Admin can view the registered students list.
+6 Data is decrypted safely before display.
+
+### References
+- Django Official Documentation  
+  https://docs.djangoproject.com/en/stable/
+
+- Django Deployment (Gunicorn & WhiteNoise)  
+  https://whitenoise.readthedocs.io/en/stable/
+
+- Cryptography Fernet (Encryption)  
+  https://cryptography.io/en/latest/fernet/
+
+- Render Deployment Docs  
+  https://render.com/docs/deploy-django
+
+
+
 
 ## Author
 
