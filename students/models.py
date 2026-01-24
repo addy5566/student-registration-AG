@@ -14,5 +14,5 @@ class Student(models.Model):
 
 
     class Meta:
-        managed = False   # 👈 VERY IMPORTANT
+        managed = False   
         db_table = 'students_student'
