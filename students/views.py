@@ -5,6 +5,12 @@ from .models import Student
 from .utils import encrypt_value, decrypt_value
 
 # code for register
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import Student
+from .utils import encrypt_value, decrypt_value
+
 
 def register_student(request):
     if request.method == "POST":
@@ -13,16 +19,16 @@ def register_student(request):
         mobile = request.POST.get("mobile")
         class_name = request.POST.get("class")
 
-    student = Student.objects.create(
-        name=name,
-        email=encrypt_value(email),
-        mobile=encrypt_value(mobile),
-        class_name=class_name
+        student = Student.objects.create(
+            name=name,
+            email=encrypt_value(email),
+            mobile=encrypt_value(mobile),
+            class_name=class_name,
         )
 
-    decrypted_email = decrypt_value(student.email)
+        decrypted_email = decrypt_value(student.email)
 
-    send_mail(
+        send_mail(
             subject="Registration Successful",
             message=f"Hello {name}, your registration ID is {student.id}",
             from_email=settings.EMAIL_HOST_USER,
@@ -30,8 +36,9 @@ def register_student(request):
             fail_silently=False,
         )
 
-    return redirect(f"/success/?id={student.id}")
+        return redirect(f"/success/?id={student.id}")
 
+    # ✅ GET request → show form only
     return render(request, "students/register.html")
 
 
