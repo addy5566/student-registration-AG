@@ -4,7 +4,7 @@ from django.conf import settings
 if not settings.ENCRYPTION_KEY:
     raise RuntimeError("ENCRYPTION_KEY is not set")
 
-cipher = Fernet(settings.ENCRYPTION_KEY)
+cipher = Fernet(settings.ENCRYPTION_KEY.encode())
 
 
 def encrypt_value(value: str) -> str:
