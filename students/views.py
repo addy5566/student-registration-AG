@@ -1,8 +1,4 @@
-from django.shortcuts import render, redirect
-from django.core.mail import send_mail
-from django.conf import settings
-from .models import Student
-from .utils import encrypt_value, decrypt_value
+
 
 # code for register
 from django.shortcuts import render, redirect
@@ -17,7 +13,7 @@ def register_student(request):
         name = request.POST.get("name")
         email = request.POST.get("email")
         mobile = request.POST.get("mobile")
-        class_name = request.POST.get("class")
+        class_name = request.POST.get("class_name")
 
         student = Student.objects.create(
             name=name,
@@ -38,7 +34,7 @@ def register_student(request):
 
         return redirect(f"/success/?id={student.id}")
 
-    # ✅ GET request → show form only
+    # GET request → show form only
     return render(request, "students/register.html")
 
 
