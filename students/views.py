@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
-from django.core.mail import send_mail
+from .email_service import send_registration_email
 from django.conf import settings
 from django.http import HttpResponse
 from django.db.models import Q
@@ -43,6 +43,13 @@ def register_student(request):
         mobile=encrypt_value(mobile),
         class_name=class_name,
     )
+
+    send_registration_email(
+        to_email=email,
+        student_id=student.id,
+        name=name
+    )
+
 
     return JsonResponse({
         "status": "success",
