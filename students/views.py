@@ -9,7 +9,7 @@ from .models import Student
 from .utils import encrypt_value, decrypt_value
 
 
-# ================= REGISTER =================
+# REGISTER 
 def register_student(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -46,7 +46,7 @@ def register_student(request):
     return render(request, "students/register.html")
 
 
-# ================= SUCCESS =================
+# SUCCESS
 def registration_success(request):
     student_id = request.GET.get("id")
     return render(request, "students/success.html", {
@@ -54,7 +54,7 @@ def registration_success(request):
     })
 
 
-# ================= STUDENT LIST =================
+# STUDENT LIST 
 def student_list(request):
     query = request.GET.get("q")
     class_filter = request.GET.get("class_name")  # ✅ FIXED
@@ -80,7 +80,7 @@ def student_list(request):
     })
 
 
-# ================= CSV DOWNLOAD =================
+# CSV DOWNLOAD 
 def download_students_csv(request):
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = 'attachment; filename="students.csv"'
