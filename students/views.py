@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponse
@@ -10,74 +12,81 @@ from .utils import encrypt_value, decrypt_value
 
 
 # REGISTER 
+@csrf_exempt
 def register_student(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        mobile = request.POST.get("mobile")
-        class_name = request.POST.get("class_name")
+    if request.method != "POST":
+        return JsonResponse({
+            "error": "Only POST method allowed"
+        }, status=405)
 
-        if not all([name, email, mobile, class_name]):
-            return render(request, "students/register.html", {
-                "error": "All fields are required"
-            })
-
-        student = Student.objects.create(
-            name=name,
-            email=encrypt_value(email),
-            mobile=encrypt_value(mobile),
-            class_name=class_name,
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {"error": "Invalid JSON"},
+            status=400
         )
 
-        try:
-            decrypted_email = decrypt_value(student.email)
-            send_mail(
-                subject="Registration Successful",
-                message=f"Hello {name}, your registration ID is {student.id}",
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[decrypted_email],
-                fail_silently=True,  # ✅ IMPORTANT
-            )
-        except Exception:
-            pass
+    name = data.get("name")
+    email =data.get("email")
+    mobile = data.get("mobile")
+    class_name = data.get("class_name")
 
-        return redirect("success")
+    if not all([name, email, mobile, class_name]):
+        return JsonResponse({
+            "error": "All fields are required"
+        }, status=400)
 
-    return render(request, "students/register.html")
+    student = Student.objects.create(
+        name=name,
+        email=encrypt_value(email),
+        mobile=encrypt_value(mobile),
+        class_name=class_name,
+    )
+
+    return JsonResponse({
+        "status": "success",
+        "student_id": student.id,
+        "message": "Student registered successfully"
+    }, status=201)
 
 
 # SUCCESS
 def registration_success(request):
     student_id = request.GET.get("id")
-    return render(request, "students/success.html", {
+
+    return JsonResponse({
+        "status": "success",
         "student_id": student_id
     })
 
 
+
 # STUDENT LIST 
 def student_list(request):
-    query = request.GET.get("q")
-    class_filter = request.GET.get("class_name")  # ✅ FIXED
-
     students = Student.objects.all()
-
-    if query:
-        students = students.filter(name__icontains=query)
-
-    if class_filter:
-        students = students.filter(class_name=class_filter)
+    data = []
 
     for student in students:
         try:
-            student.email = decrypt_value(student.email)
-            student.mobile = decrypt_value(student.mobile)
+            email = decrypt_value(student.email)
+            mobile = decrypt_value(student.mobile)
         except Exception:
-            student.email = "Error"
-            student.mobile = "Error"
+            # Handles InvalidToken safely
+            email = "Decryption failed (invalid key)"
+            mobile = "Decryption failed (invalid key)"
 
-    return render(request, "students/list.html", {
-        "students": students
-    })
+        data.append({
+            "id": student.id,
+            "name": student.name,
+            "class": student.class_name,
+            "email": email,
+            "mobile": mobile,
+        })
+
+    return JsonResponse({"students": data})
+
+
 
 
 # CSV DOWNLOAD 
