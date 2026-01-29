@@ -33,7 +33,6 @@ The application allows students to register, securely stores sensitive informati
 
 - ##Backend:## Python, Django
 - ##Database:## MySQL
-- ##Frontend:## HTML, CSS
 - ##Email Service:## SMTP (Gmail)
 - ##Version Control:## Git & GitHub
 
