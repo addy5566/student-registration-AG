@@ -63,6 +63,7 @@ def registration_success(request):
 
 
 # STUDENT LIST 
+
 def student_list(request):
     students = Student.objects.all()
     data = []
