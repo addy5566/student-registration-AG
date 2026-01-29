@@ -36,7 +36,16 @@ The application allows students to register, securely stores sensitive informati
 - ##Email Service:## SMTP (Gmail)
 - ##Version Control:## Git & GitHub
 
----
+## Application Flow
+
+1. Client sends a POST request to `/register/` with student details.
+2. Server validates input data.
+3. Mobile number is hashed to check uniqueness.
+4. Email and mobile are encrypted before storing in the database.
+5. Student record is created.
+6. Registration confirmation email is sent using SMTP.
+7. API returns JSON response with generated registration ID.
+
 
 ## Project Structure
 
@@ -92,6 +101,28 @@ Confirmation email is sent after successful registration
 Uses SMTP with TLS
 
 Gmail App Password is used for authentication
+
+
+## Mobile Number Uniqueness Check
+
+To prevent duplicate registrations while keeping data secure:
+
+- The mobile number is hashed using SHA-256.
+- The hash is stored in a separate field (`mobile_hash`).
+- Before registration, the system checks if the hash already exists.
+
+### Why this approach?
+- Hashing allows fast equality checks.
+- Actual mobile numbers remain encrypted.
+- Even if the database is compromised, raw mobile numbers cannot be recovered.
+
+### Alternative Approaches
+- Database-level UNIQUE constraint on encrypted values
+- Tokenization using a separate lookup table
+- External identity verification services (OTP-based)
+
+
+
 
 ## Running the Project Locally
 
